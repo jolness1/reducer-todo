@@ -1,13 +1,33 @@
-
-
+import {ADD_TODO, MARK_COMPLETE, CLEAR_COMPLETED} from "./../actions/actions.js";
 export const initialState = {
-    item: 'Learn about reducers',
-    completed: false,
-    id: 3892987589  
+   todoList: []
 }
 
 
-const reducer = (state, action) => {
-    switch(action.type)
-        
-}
+export const reducer = (state, action) => {
+    switch(action.type) {
+        case(ADD_TODO):
+            return({
+                todoList: [...state.todoList, action.payload ],
+            });
+        case(MARK_COMPLETE):
+            return({
+                ...state,
+                todoList: state.todoList.map((item) => {
+                    return item.id === action.payload
+                        ? { ...item, completed:true }
+                        :item;
+                }),
+            });
+        case(CLEAR_COMPLETED):
+            return ({
+                ...state,
+                todoList: state.todoList.filter((item) => item.completed === false
+                ),
+            });
+        default:
+            return state;
+    }
+
+};
+
